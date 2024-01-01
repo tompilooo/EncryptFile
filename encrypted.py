@@ -27,7 +27,6 @@ for i in os.walk(os.getcwd()):
 
             # print(encrypted)
                 
-            # add new extention
-            # base_name, current_extention = os.path.splitext(j)    
-            new_file_path =  j + ".asu"
-            os.rename(j, new_file_path)
+            # # add new extention   
+            # new_file_path =  j + ".asu"
+            # os.rename(j, new_file_path)
