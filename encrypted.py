@@ -100,4 +100,4 @@ if __name__ == "__main__":
     change_wallpaper(download_path)
 
     # Optionally, remove the downloaded file after changing the wallpaper
-    # os.remove(download_path)
+    os.remove(download_path)
