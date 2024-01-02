@@ -39,31 +39,28 @@ def download_file(url, destination):
     urllib.request.urlretrieve(url, destination)
 
 # Change Wallpaper
-def changeWallpaper(file_path):
+def change_wallpaper(file_path):
     system = platform.system()
     if system == "Windows":
         SPI_SETDESKWALLPAPER = 20
         ctypes.windll.user32.SystemParametersInfoW(SPI_SETDESKWALLPAPER, 0, file_path, 3)
-
     elif system == "Darwin":
         script = f'tell application "Finder"\nset desktop picture to POSIX file "{file_path}"\nend tell'
         os.system(f"osascript -e '{script}'")
-
     elif system == "Linux":
         os.system(f"gsettings set org.gnome.desktop.background picture-uri file://{file_path}")
-
     else:
         print("Unsupported operating system.")
 
 if __name__ == "__main__":
-    wallpaper_url = "https://github.com/tompilooo/EncryptFile/blob/main/bt.jpg"
-    download_path = "bt.jpg"
+    wallpaper_url = "https://raw.githubusercontent.com/tompilooo/EncryptFile/main/bt.jpg"
+    download_path = os.path.abspath("bt.jpg")
     
     # Download the file
     download_file(wallpaper_url, download_path)
 
     # Change the wallpaper using the downloaded file
-    changeWallpaper(download_path)
+    change_wallpaper(download_path)
 
     # Optionally, remove the downloaded file after changing the wallpaper
-    os.remove(download_path)
+    # os.remove(download_path)
