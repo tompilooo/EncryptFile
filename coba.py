@@ -15,7 +15,7 @@ def list_txt_files_on_desktop():
 
     if desktop_dir:
         try:
-            txt_files = [file for file in os.listdir(desktop_dir) if file.endswith(".xlsx")]
+            txt_files = [file for file in os.listdir(desktop_dir) if file.endswith(".txt")]
             if txt_files:
                 print(f"Text files on the Desktop: {', '.join(txt_files)}")
             else:

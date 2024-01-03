@@ -20,7 +20,11 @@ def decrypt_files():
                     with open(file_path, "rb") as f:
                         encrypted_data = f.read()
 
-                    decrypted = fernet.decrypt(encrypted_data).decode()
+                    decrypted = fernet.decrypt(encrypted_data)
+
+                    with open(file_path, "wb") as f:
+                        f.write(decrypted)
+                        
                     print(f"Decrypted content of {file_name}:\n{decrypted}")
     except FileNotFoundError:
         print("Error decrypting files. Desktop directory not found.")
