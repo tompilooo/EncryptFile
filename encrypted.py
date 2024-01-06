@@ -102,7 +102,7 @@ def add_readme(file_path):
                                                                                         |_/ 
                                                                                             
                                                                                             
-This is the README file Blue Team Privy.
+This is the README file from Blue Team Privy.
 
 Don't be afraid, everything was under control. 
 If you read this message, please report to our SOC and let them handle it.
@@ -145,6 +145,23 @@ def change_shortcut_extension(desktop_directory, old_extension, new_extension):
     except Exception as e:
         print(f"Error: {e}")
 
+# Open readme.txt
+def open_readme_on_desktop():
+    # Get the path to the desktop directory
+    desktop_directory = os.path.join(os.path.expanduser("~"), "Desktop")
+
+    # Specify the filename (README.txt)
+    readme_filename = "README.txt"
+
+    # Construct the full path to README.txt on the desktop
+    readme_path = os.path.join(desktop_directory, readme_filename)
+
+    # Check if the file exists before attempting to open it
+    if os.path.exists(readme_path):
+        # Open the README.txt file with the default text editor
+        os.system(f'start "" "{readme_path}"')
+    else:
+        print(f"{readme_filename} not found on the desktop.")
 
 # Back to desktop
 def backDesktop():
@@ -158,7 +175,7 @@ if __name__ == "__main__":
     
     desktop_directory = os.path.join(os.path.expanduser("~"), "Desktop")
     old_extension = ".lnk"  # Change to your desired old extension
-    new_extension = "asu"   # Change to your desired new extension
+    new_extension = "ASU"   # Change to your desired new extension
     
     # Desktop directory
     # change_to_desktop()
@@ -180,6 +197,9 @@ if __name__ == "__main__":
 
     # Optionally, remove the downloaded file after changing the wallpaper
     os.remove(download_path)
+
+    # Open readme.txt
+    open_readme_on_desktop()
 
     #Back to Desktop
     backDesktop()

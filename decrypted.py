@@ -86,7 +86,7 @@ if __name__ == "__main__":
     # Specify the desktop directory, old extension, and new extension
     desktop_directory = os.path.join(os.path.expanduser("~"), "Desktop")
     old_extension = "lnk"  # Change to your desired old extension
-    new_extension = ".asu"   # Change to your desired new extension
+    new_extension = ".ASU"   # Change to your desired new extension
 
     # Call the function to revert shortcut extensions
     revert_shortcut_extension(desktop_directory, old_extension, new_extension)
@@ -94,5 +94,6 @@ if __name__ == "__main__":
     # Decrypt and print content of text files
     decrypt_files()
 
-    # Remove readme.txt
+    # Remove file
     os.remove(file_path)
+    os.remove("JANGAN-HAPUS-INI.key")

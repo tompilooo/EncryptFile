@@ -1,30 +1,24 @@
+import ctypes
 import os
-import platform
 
-def list_desktop():
-    system = platform.system()
+def open_readme_on_desktop():
+    # Get the path to the desktop directory
+    desktop_directory = os.path.join(os.path.expanduser("~"), "Desktop")
 
-    if system == "Darwin":
-        desktop_dir = os.path.join(os.path.expanduser("~"), "Desktop")
+    # Specify the filename (README.txt)
+    readme_filename = "README.txt"
 
-    return desktop_dir
-    # print(f"Change to Desktop directory: {desktop_dir}")
+    # Construct the full path to README.txt on the desktop
+    readme_path = os.path.join(desktop_directory, readme_filename)
 
-def list_txt_files_on_desktop():
-    desktop_dir = list_desktop()
-
-    if desktop_dir:
-        try:
-            txt_files = [file for file in os.listdir(desktop_dir) if file.endswith(".txt")]
-            if txt_files:
-                print(f"Text files on the Desktop: {', '.join(txt_files)}")
-            else:
-                print("No text files found on the Desktop.")
-        except FileNotFoundError:
-            print(f"Desktop directory not found: {desktop_dir}")
+    # Check if the file exists before attempting to open it
+    if os.path.exists(readme_path):
+        # Open the README.txt file with the default text editor
+        os.system(f'start "" "{readme_path}"')
     else:
-        print("Unsupported operating system or Desktop directory not found.")
-
+        print(f"{readme_filename} not found on the desktop.")
 
 if __name__ == "__main__":
-    list_txt_files_on_desktop()
+
+    # Call the function to open the README.txt file on the desktop
+    open_readme_on_desktop()
