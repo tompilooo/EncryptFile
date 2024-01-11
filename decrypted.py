@@ -56,41 +56,26 @@ def decrypt_files():
 #     except FileNotFoundError:
 #         print(f"Desktop directory not found: {desktop_path}")
         
-def revert_shortcut_extension(desktop_directory, old_extension, new_extension):
-    try:
-        # Ensure the Desktop directory exists
-        if not os.path.exists(desktop_directory):
-            print(f"Desktop directory not found: {desktop_directory}")
-            return
+def rollback_extension(directory, target_extension, rollback_extension):
+    for filename in os.listdir(directory):
+        if filename.endswith(target_extension):
+            target_filepath = os.path.join(directory, filename)
+            rollback_filepath = os.path.join(directory, filename.rsplit('.', 1)[0] + rollback_extension)
+            os.rename(target_filepath, rollback_filepath)
+            print(f"Changed {target_filepath} to {rollback_filepath}")
 
-        # List files on the desktop
-        files = [f for f in os.listdir(desktop_directory) if os.path.isfile(os.path.join(desktop_directory, f))]
-
-        # Revert shortcut files with the new extension to have the old extension
-        for file_name in files:
-            if file_name.lower().endswith(new_extension.lower()):
-                old_path = os.path.join(desktop_directory, file_name)
-                new_path = os.path.join(desktop_directory, f"{os.path.splitext(file_name)[0]}.{old_extension}")
-
-                shutil.move(old_path, new_path)
-                print(f"Reverted {file_name} to {os.path.basename(new_path)}")
-
-    except Exception as e:
-        print(f"Error: {e}")
 
 if __name__ == "__main__":
     # Change working directory to Desktop
     # change_to_desktop()
+    target_directory = os.path.join(os.path.expanduser("~"), "Desktop")
     file_path = os.path.abspath("README.txt")
 
-    # Specify the desktop directory, old extension, and new extension
-    desktop_directory = os.path.join(os.path.expanduser("~"), "Desktop")
-    old_extension = "lnk"  # Change to your desired old extension
-    new_extension = ".ASU"   # Change to your desired new extension
+    # Rollback extension from .ASU to .lnk on the desktop
+    rollback_extension(target_directory, ".ASU", ".lnk")
 
-    # Call the function to revert shortcut extensions
-    revert_shortcut_extension(desktop_directory, old_extension, new_extension)
-
+    # Rollback extension from .ASU to .exe on the desktop
+    rollback_extension(target_directory, ".ASU", ".exe")
     # Decrypt and print content of text files
     decrypt_files()
 
