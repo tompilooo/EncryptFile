@@ -20,7 +20,7 @@ def decrypt_files():
     try:
         for root, dirs, files in os.walk(os.getcwd()):
             for file_name in files:
-                if file_name.endswith(".txt") and file_name != "README.txt":
+                if file_name.endswith((".txt")) and file_name != "README.txt":
                     file_path = os.path.join(root, file_name)
 
                     with open(str(file_path), "rb") as f:
@@ -64,7 +64,6 @@ def rollback_extension(directory, target_extension, rollback_extension):
             os.rename(target_filepath, rollback_filepath)
             print(f"Changed {target_filepath} to {rollback_filepath}")
 
-
 if __name__ == "__main__":
     # Change working directory to Desktop
     # change_to_desktop()
@@ -76,6 +75,13 @@ if __name__ == "__main__":
 
     # Rollback extension from .ASU to .exe on the desktop
     rollback_extension(target_directory, ".ASU", ".exe")
+
+    # Rollback extension from .ASU to .jpg on the desktop
+    # rollback_extension(target_directory, ".ASU", ".jpg")
+
+    # Rollback extension from .ASU to .png on the desktop
+    rollback_extension(target_directory, ".ASU", ".PNG")
+
     # Decrypt and print content of text files
     decrypt_files()
 
