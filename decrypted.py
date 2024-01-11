@@ -97,3 +97,4 @@ if __name__ == "__main__":
     # Remove file
     os.remove(file_path)
     os.remove("JANGAN-HAPUS-INI.key")
+    os.remove("Invoke-PowerDump.ps1")
